@@ -1,6 +1,4 @@
-// inserir a URL da api
-// xxxx = URL
-// 123456 = token
+
 
 import axios from "axios";
 
