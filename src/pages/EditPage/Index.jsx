@@ -12,24 +12,34 @@ export function EditPage () {
       imageURL:"",
       sobre:"",
 
-    })
+    });
     
     const {plantId} = useParams()
     useEffect(()=>{
         async function fetchPlant(){
-         const response = await api.post('/Plants/${plantId}')
+         const response = await api.get(`/Plants/${plantId}`)
+         setForm({ ...response.data.data.attributes });
         }
         fetchPlant();
     },[])
 
-   // const navigate = useNavigate()
+    const navigate = useNavigate()
 
     function handleChange(e) {
       setForm({...form,[e.target.name]: e.target.value})
     }
 
-   async function handleSubmit(){}
-
+    async function handleSubmit(e) {
+      e.preventDefault();
+      try {
+        await api.put(`/Plants/${plantId}`, { data: form });
+  
+        navigate("/");
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    
   return (
     <>
     <h3>Editar informações</h3>

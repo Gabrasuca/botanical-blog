@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 import { api } from "../../utils/api.js";
 import "./plants.css"
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 export function PlantDetail() {
+  const { plantId } = useParams();
+  const navigate = useNavigate();
   const [plant, setPlant] = useState([]);
   
   useEffect(() => {
     async function fetchPlant() {
       try {
-        const response = await api.get("/plants");
+        const response = await api.get(`/plants/${plantId}`);
 
         
         setPlant([... response.data.data]);
@@ -20,6 +22,14 @@ export function PlantDetail() {
 
     fetchPlant();
   }, []);
+
+  async function handleDelete() {
+    await api.delete(`/plants/${plantId}`);
+    navigate("/");
+  }
+
+
+
 
   return (
     <>
