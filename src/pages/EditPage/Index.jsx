@@ -17,7 +17,7 @@ export function EditPage () {
     const {plantId} = useParams()
     useEffect(()=>{
         async function fetchPlant(){
-         const response = await api.get(`/Plants/${plantId}`)
+         const response = await api.get(`/plants/${currentPlant.id}`)
          setForm({ ...response.data.data.attributes });
         }
         fetchPlant();
@@ -32,7 +32,7 @@ export function EditPage () {
     async function handleSubmit(e) {
       e.preventDefault();
       try {
-        await api.put(`/Plants/${plantId}`, { data: form });
+        await api.put(`/plants/${plantId}`, { data: form });
   
         navigate("/");
       } catch (e) {
