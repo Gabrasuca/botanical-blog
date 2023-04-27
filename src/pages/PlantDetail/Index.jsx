@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { api } from "../../utils/api.js";
+import "./plants.css"
+import { Link } from "react-router-dom";
 
-export function PlantList() {
+export function PlantDetail() {
   const [plant, setPlant] = useState([]);
   
   useEffect(() => {
@@ -21,10 +23,19 @@ export function PlantList() {
 
   return (
     <>
-      <h2> Here you can find: </h2>
+      <h2> Plantas listadas </h2>
       {plant.map((currentPlant) => {
         return (
-          <h3 key={currentPlant.id}> {currentPlant.attributes.nome}</h3>
+          <>
+          <h2>{currentPlant.attributes.nome}</h2>
+          <img src={currentPlant.attributes.imageURL} />
+          <p>{currentPlant.attributes.sobre}</p>
+
+
+          <Link to ={'/edit/${plantId}'}>
+          <button>Editar</button>
+          </Link>
+          </>
         );
       })}
     </>
