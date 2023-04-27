@@ -4,59 +4,75 @@ import Form from 'react-bootstrap/Form';
 import { api } from '../../utils/api';
 import { useNavigate } from 'react-router-dom';
 
-export function CreatePage () {
-   
+export function CreatePage() {
   const [form, setForm] = useState({
+    nome: '',
+    imageURL: '',
+    sobre: '',
+  });
 
-      nome:"",
-      imageURL:"",
-      sobre:"",
+  const navigate = useNavigate();
 
-    })
+  function handleChange(e) {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  }
 
-    const navigate = useNavigate()
+  async function handleSubmit(e) {
+    e.preventDefault();
 
-    function handleChange(e) {
-      setForm({...form,[e.target.name]: e.target.value})
+    try {
+      await api.post('/plants', { data: { ...form } });
+      navigate('/Plants');
+    } catch (e) {
+      console.log(e);
     }
-
-   async function handleSubmit(e){
-    e.preventDefault()
-    
-    try{
-      await api.post("/plants",{data:{...form}});
-      navigate("/Plants")
-    }
-   
-   catch (e) {
-    console.log(e)
-   }
   }
 
   return (
-    <>
-    <h3>Insira abaixo as informações sobre a espécie</h3>
-    <Form onSubmit={handleSubmit}>
-      <Form.Group className="mb-3" controlId="formBasicName">
-        <Form.Label>Nome</Form.Label>
-        <Form.Control name="nome" value={form.nome} onChange={handleChange} placeholder="nome da espécie"/>
-      </Form.Group>
+    <div className="container">
+      <h3 className="mt-4 mb-4">Insira abaixo as informações sobre a espécie</h3>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group controlId="formBasicName">
+          <Form.Label>Nome</Form.Label>
+          <Form.Control
+            type="text"
+            name="nome"
+            value={form.nome}
+            onChange={handleChange}
+            placeholder="Nome da espécie"
+            required
+          />
+        </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formBasicImg">
-        <Form.Label>Imagem</Form.Label>
-        <Form.Control name="imageURL" value={form.imageURL} onChange={handleChange} placeholder="Image URL"/>
-      </Form.Group>
-      
-      <Form.Group className="mb-3" controlId="formBasicSobre">
-      <Form.Label>Sobre</Form.Label>
-        <Form.Control name="sobre" value={form.sobre} onChange={handleChange}  placeholder="Descrição sobre a espécie listada"/>
-      </Form.Group>
+        <Form.Group controlId="formBasicImg">
+          <Form.Label>Imagem</Form.Label>
+          <Form.Control
+            type="text"
+            name="imageURL"
+            value={form.imageURL}
+            onChange={handleChange}
+            placeholder="URL da imagem"
+            required
+          />
+        </Form.Group>
 
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
-    </Form>
-    </>
+        <Form.Group controlId="formBasicSobre">
+          <Form.Label>Sobre</Form.Label>
+          <Form.Control
+            as="textarea"
+            name="sobre"
+            value={form.sobre}
+            onChange={handleChange}
+            placeholder="Descrição sobre a espécie listada"
+            required
+          />
+        </Form.Group>
+
+        <Button variant="primary" type="submit">
+          Submit
+        </Button>
+      </Form>
+    </div>
   );
 }
 
