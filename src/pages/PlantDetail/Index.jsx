@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { api } from "../../utils/api.js";
 import "./plants.css"
 import { Link, useParams, useNavigate } from "react-router-dom";
+import { toast , Toaster} from "react-hot-toast";
+
 
 export function PlantDetail() {
   const [plant, setPlant] = useState([]);
@@ -22,12 +24,15 @@ export function PlantDetail() {
 
   async function handleDelete(id) {
     await api.delete(`/plants/${id}`);
-    navigate("/Plants");
+    toast.success('Planta deletada com sucesso!');
+    setPlant(plant.filter((p) => p.id !== id));
   }
 
   return (
-    <div className="container">
-      <h2 className="text-center">Plantas listadas</h2>
+  <>
+         <Toaster />
+        <div className="container">
+      <h2 className="text-center title">Plantas listadas</h2>
       <div className="row">
         {plant.map((currentPlant) => {
           return (
@@ -41,15 +46,17 @@ export function PlantDetail() {
                 <div className="card-body">
                   <h5 className="card-title">{currentPlant.attributes.nome}</h5>
                   <p className="card-text">{currentPlant.attributes.sobre}</p>
-                  <Link to={`/edit/${currentPlant.id}`} className="btn btn-primary">
+                  <div className="button-container">
+                  <Link to={`/edit/${currentPlant.id}`} className="btn btn-green">
                     Editar
                   </Link>
                   <button
                     onClick={() => handleDelete(currentPlant.id)}
-                    className="btn btn-danger ms-2"
+                    className="btn btn-green ms-2"
                   >
                     Deletar
                   </button>
+                </div>
                 </div>
               </div>
             </div>
@@ -57,5 +64,7 @@ export function PlantDetail() {
         })}
       </div>
     </div>
+    </>
+
   );
 }

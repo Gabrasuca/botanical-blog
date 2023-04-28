@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { api } from '../../utils/api';
 import { useNavigate } from 'react-router-dom';
+import "./createpage.css"
 
 export function CreatePage() {
   const [form, setForm] = useState({
@@ -32,7 +33,7 @@ export function CreatePage() {
     <div className="container">
       <h3 className="mt-4 mb-4">Insira abaixo as informações sobre a espécie</h3>
       <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="formBasicName">
+        <Form.Group controlId="formBasicName" className='form-group'>
           <Form.Label>Nome</Form.Label>
           <Form.Control
             type="text"
@@ -44,7 +45,7 @@ export function CreatePage() {
           />
         </Form.Group>
 
-        <Form.Group controlId="formBasicImg">
+        <Form.Group controlId="formBasicImg" className='form-group'>
           <Form.Label>Imagem</Form.Label>
           <Form.Control
             type="text"
@@ -56,7 +57,7 @@ export function CreatePage() {
           />
         </Form.Group>
 
-        <Form.Group controlId="formBasicSobre">
+        <Form.Group controlId="formBasicSobre" className='form-group'>
           <Form.Label>Sobre</Form.Label>
           <Form.Control
             as="textarea"
